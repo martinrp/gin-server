@@ -4,21 +4,22 @@ import crypto from 'crypto';
 import _ from 'underscore';
 
 // Bytesize
-let len = 128;
+const len = 128;
 // Iterations ~300ms  
-let iterations = 12000;
+const iterations = 12000;
 
+// TODO: Save users against the server rather than faked here
 let users = {
   'a123': {
-    name: 'player1'
+    username: 'player1'
   },
   'b123': {
-    name: 'player2'
+    username: 'player2'
   }
 };
 
 // larger numbers mean better security, less
-let config = {
+const config = {
   // size of the generated hash
   hashBytes: 32,
   // larger salt means hashed passwords are more resistant to rainbow table, but
@@ -70,8 +71,8 @@ function hashPassword(password, callback) {
   });
 }
 
-function getUserByPw (username) {
-  return _.find(users, user =>  user.name === username );
+function getUserByName (username) {
+  return _.find(users, user =>  user.username === username );
 }
 
 /**
@@ -86,8 +87,11 @@ function getUserByPw (username) {
  * @param {!function(?Error, !boolean)}
  */
 export function authenticate(username, password, callback) {
-  let user = getUserByPw(username);
-  let combined = getUserByPw(username).hash;
+  let user = getUserByName(username);
+
+  if (!user) {  return callback(new Error('User not found'), false); }
+
+  let combined = user.hash;
 
   // extract the salt and hash from the combined buffer
   let saltBytes = combined.readUInt32BE(0);
@@ -98,22 +102,17 @@ export function authenticate(username, password, callback) {
 
   // verify the salt and hash against the password
   crypto.pbkdf2(password, salt, config.iterations, config.hashBytes, config.digest, function(err, verify) {
-    if (err) {
-      return callback(err, false);
-    }
-    
+    if (err) { return callback(err, false); }
     callback(null, hash === verify.toString('binary'), user);
   });
 }
 
-// setup
-
 // Fake passwords on users
 for (let prop in users){
   hashPassword('password', function(err, combined){
-    if (err) throw err; 
+    if (err) throw err;
     // store the salted & hashed pw in the "db"
     // TODO: Convert to string for storing in DB
     users[prop].hash = combined;
-  }); 
+  });
 }

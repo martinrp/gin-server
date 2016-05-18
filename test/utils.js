@@ -2,12 +2,11 @@
 
 // TODO: Convert to ES6 and get it to work running through babel so that app can be tested
 
-let assert      = require('chai').assert;
-let expect      = require('chai').expect;
-// let app         = require('../server');
-let userLang    = require('../app/utils/user-language.js');
+import { assert, expect } from 'chai';
+// import app from '../app/index';
+import userLang from '../app/utils/user-language.js';
 
-describe('App', function() {
+describe('Utils', function() {
     describe('Split languages', function () {
         it('should return an array with 4 languages', function () {
             let testString = 'en-gb,en;q=0.8, ru;q=0.7, uk;q=0.3';

@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1>{{title}}</h1>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <form action="updateScore" method="POST" class="form-horizontal" role="form">
+            <input type="hidden" name="_csrf" id="csrf" value="{{_csrfToken}}">
+            <div class="form-group">
+                <legend>Score</legend>
+                <div class="col-sm-12">
+                    <label for="username">Player 1 Score</label>
+                    </br>
+                    <input type="number" id="player1score" name="player1score" value="0">
+                </div>
+                <div class="col-sm-12">
+                    <label for="password">Player 2 Score</label>
+                    </br>
+                    <input type="number" id="player2score" name="player2score" value="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary">Submit Score</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -3,7 +3,7 @@
         <h1>{{title}}</h1>
         
         <form action="login" method="POST" class="form-horizontal" role="form">
-            <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+            <input type="hidden" name="_csrf" id="csrf" value="{{_csrfToken}}">
             <div class="form-group">
                 <legend>Login</legend>
                 <div class="col-sm-12">

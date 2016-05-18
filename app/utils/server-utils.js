@@ -1,6 +1,6 @@
 
 // Server private functions
-function _resComplete(e, req, res, html){
+export function resComplete(e, req, res, html){
   if (e){ 
     _handleErrors(e, res);
   } else {
@@ -10,7 +10,7 @@ function _resComplete(e, req, res, html){
 }
 
 // TODO: Create custom HTML errors, rather than inserting name/msg each time
-function _handleErrors(e, res){
+export function handleErrors(e, res){
   console.log('Error', e.name, e.message);
   if (e.name === 'MethodNotAllowedError') {
     // Method not allowed
@@ -41,9 +41,4 @@ function _handleErrors(e, res){
     res.write(e + '\n');
     res.end();
   }
-}
-
-export default {
-  handleErrors: _handleErrors,
-  resComplete: _resComplete
 }
